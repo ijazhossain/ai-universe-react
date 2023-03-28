@@ -1,9 +1,9 @@
 import React from 'react';
 
 const Modal = (props) => {
-    console.log(props.singleData)
+    // console.log(props.singleData)
     const { description, pricing, features, integrations, image_link, input_output_examples } = props.singleData;
-    // console.log(input_output_examples[0]);
+    console.log(image_link);
 
     return (
         <>
@@ -42,16 +42,28 @@ const Modal = (props) => {
                                     <h2 className='text-[25px] font-semibold mb-4'>Integrations</h2>
                                     <ul className='list-disc pl-5 '>
                                         {
-                                            integrations && integrations.map(integration => <li>{integration ? integration : 'Not found'}</li>)
+                                            integrations && integrations.map(integration => <li>{integration} </li>)
+                                        }
+                                        {
+                                            !integrations && <li>Not found</li>
                                         }
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div className='border-2 border-[#e7e7e7] rounded-lg p-[25px]'>
-                            <img className='rounded-lg' src={image_link} alt="banner" />
-                            <p className='text-[#111111] text-[25px] font-semibold text-center my-[25px]'>{input_output_examples && input_output_examples[0].input}</p>
-                            <p className='text-[#585858] text-center'>{input_output_examples && input_output_examples[0].output}</p>
+                            <img className='rounded-lg' src={image_link && image_link[0]} alt="banner" />
+                            <p className='text-[#111111] text-[25px] font-semibold text-center my-[25px]'>{input_output_examples && input_output_examples[0].input}
+                                {
+                                    !input_output_examples && 'Can you give any example?'
+                                }
+                            </p>
+                            <p className='text-[#585858] text-center'>{input_output_examples && input_output_examples[0].output}
+
+                                {
+                                    !input_output_examples && 'No! Not Yet! Take a break!!!'
+                                }
+                            </p>
                         </div>
                     </div>
                     <div className="modal-action">

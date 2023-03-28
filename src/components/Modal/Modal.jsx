@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Modal = () => {
+const Modal = (props) => {
+    console.log(props.singleData)
+    const { description, pricing, features, integrations, image_link, input_output_examples } = props.singleData;
     return (
         <>
             <input type="checkbox" id="my-modal-5" className="modal-toggle" />

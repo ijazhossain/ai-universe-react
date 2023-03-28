@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
 import SingleData from '../SingleData/SingleData';
 
 const Cards = () => {
+
     const [data, setData] = useState([])
     const [uniqueId, setUniqueId] = useState(null)
     const [singleData, setSingleData] = useState({})
+    const [showAll, setShowAll] = useState(false);
     const handleId = (id) => {
         // console.log(id)
         setUniqueId(id)
+    }
+    const shortDate = () => {
+        const sortedData = data.sort((a, b) => {
+            return new Date(b.published_in) - new Date(a.published_in);
+        });
+        setData([...data, sortedData]);
     }
     useEffect(() => {
         const loadData = async () => {
@@ -28,14 +37,22 @@ const Cards = () => {
         loadSingleData()
     }, [uniqueId])
     return (
-        <div className='grid grid-cols-3 p-[100px] gap-y-7'>
-            {
-                data.map(singleData => <SingleData
-                    key={singleData.id}
-                    singleData={singleData}
-                    handleId={handleId}
-                ></SingleData>)
-            }
+        <div >
+            <span onClick={() => shortDate()}>
+                <Button>Sort By Date</Button>
+            </span>
+            <div className='grid grid-cols-3 p-[100px] gap-y-7'>
+                {
+                    data?.slice(0, showAll ? 12 : 6).map(singleData => <SingleData
+                        key={singleData.id}
+                        singleData={singleData}
+                        handleId={handleId}
+                    ></SingleData>)
+                }
+            </div>
+            <div className='text-center mb-12'>
+                <button className='bg-[#EB5757] text-white rounded-2xl px-7 py-6 font-semibold text-[20px]' onClick={() => setShowAll(!showAll)}>{!showAll ? 'Show All' : 'Show less'}</button>
+            </div>
             <Modal singleData={singleData}></Modal>
         </div>
     );
